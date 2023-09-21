@@ -1,0 +1,31 @@
+version: '3.4'
+
+#networks:
+#  testAspDotNetnetwork:  
+
+services: 
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: sqlserver
+    hostname: "192.168.19.1"
+    environment:
+      ACCEPT_EULA: "Y"
+      sa_password: user@1234
+    ports:
+      - "1435:1433"
+  testaspdotnetcore:
+    container_name: testaspdotnetcore
+    ports:
+     - 44337:80
+    image: ${DOCKER_REGISTRY-}testaspdotnet
+    build:
+      context: .
+      dockerfile: TestAspDotNetCore/Dockerfile   
+    environment:
+      ConnectionStrings__SqlDBConnectionString: "Server=192.168.19.1,1435;Database=ContactsDb;Trusted_Connection=true; User ID=sa;Password=user@1234; TrustServerCertificate=true" 
+    depends_on:
+      - sqlserver
+    extra_hosts:
+      - "dbhost:10.1.194.75"
+    network_mode: bridge
+

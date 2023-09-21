@@ -1,0 +1,37 @@
+name: dockercompose9172636055177142246
+services:
+  testaspdotnetcore:
+    build:
+      context: C:\Projects\Asp.Net\TestAspDotNetCore
+      dockerfile: TestAspDotNetCore/Dockerfile
+    container_name: testaspdotnetcore
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+    image: testaspdotnet
+    networks:
+      testAspDotNetnetwork: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "5000"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\Users\m.tanzeel.ext\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\m.tanzeel.ext\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+networks:
+  testAspDotNetnetwork:
+    name: dockercompose9172636055177142246_testAspDotNetnetwork

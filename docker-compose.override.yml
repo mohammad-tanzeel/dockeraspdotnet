@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  testaspdotnetcore:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - TestSqlDBConnectionString= Server= 192.168.19.1,1433;Database=ContactsDb;Trusted_Connection=true; TrustServerCertificate=True;MultiSubnetFailover=True;Integrated Security=False
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
